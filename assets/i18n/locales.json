@@ -1,0 +1,50 @@
+[
+  {
+    "languageCode": "en",
+    "countryCode": "GB",
+    "name": "English",
+    "nativeName": "English"
+  },
+  {
+    "languageCode": "en-US",
+    "countryCode": "US",
+    "name": "English (US)",
+    "nativeName": "English (US)"
+  },
+  {
+    "languageCode": "de",
+    "countryCode": "DE",
+    "name": "German",
+    "nativeName": "Deutsch"
+  },
+  {
+    "languageCode": "es-ES",
+    "countryCode": "ES",
+    "name": "Spanish",
+    "nativeName": "Español"
+  },
+  {
+    "languageCode": "fr-FR",
+    "countryCode": "FR",
+    "name": "French",
+    "nativeName": "Français"
+  },
+  {
+    "languageCode": "pl-PL",
+    "countryCode": "PL",
+    "name": "Polish",
+    "nativeName": "Polski"
+  },
+  {
+    "languageCode": "ru-RU",
+    "countryCode": "RU",
+    "name": "Russian",
+    "nativeName": "Русский"
+  },
+  {
+    "languageCode": "ja-JP",
+    "countryCode": "JP",
+    "name": "Japanese",
+    "nativeName": "日本語"
+  }
+]
