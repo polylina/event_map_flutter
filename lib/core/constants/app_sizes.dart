@@ -1,5 +1,6 @@
 class AppSizes {
   static const addEventCalendarHeight = 300.0;
+  static const bottomBarHeight = 56.0;
   static const buttonBorderRadius = 24.0;
   static const generalPadding = 16.0;
   static const inputBorderRadius = 16.0;

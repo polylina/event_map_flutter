@@ -15,6 +15,7 @@ import 'package:get_it/get_it.dart';
 const double _panelWidth = AppSizes.panelSizeLandscape;
 const double _panelMaxHeight = AppSizes.panelSizePortrait;
 const double _margin = AppSizes.generalPadding;
+const double _bottomBarHeight = AppSizes.bottomBarHeight;
 
 class PositionedEventDetailsPanel extends StatefulWidget {
   final bool isPortrait;
@@ -76,7 +77,7 @@ class _PositionedEventDetailsPanelState
               ? state.isOpen
                     ? portraitBottom
                     : -(panelHeight + _margin)
-              : _margin,
+              : _margin + _bottomBarHeight,
           width: isPortrait ? null : _panelWidth,
           height: isPortrait ? panelHeight : null,
           onEnd: _eventDetailsCubit.onAnimationEnd,
