@@ -25,7 +25,7 @@ class EventListItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              EventIconAvatar(iconUrl: event.flyer, size: 40),
+              EventIconAvatar(iconUrl: event.flyerUrl, size: 40),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:event_map_flutter/modules/common_events/dto/location_dto.dart';
 import 'package:event_map_flutter/modules/map/dto/address_suggestion_dto.dart';
 import 'package:event_map_flutter/modules/map/services/geocoding_service.dart';
 import 'package:event_map_flutter/modules/map/store/add_event_form_state.dart';
@@ -95,13 +96,16 @@ class AddEventFormCubit extends Cubit<AddEventFormState> {
       time.minute,
     );
     return UserEventDto(
-      id: DateTime.now().microsecondsSinceEpoch.toString(),
+      id: DateTime.now().microsecondsSinceEpoch,
       name: state.name,
       description: state.description,
-      startTime: start,
-      endTime: start.add(const Duration(hours: 1)),
-      location: suggestion.location,
-      address: state.address,
+      startDate: start,
+      location: LocationDto(
+        name: suggestion.title,
+        address: suggestion.address,
+        latitude: suggestion.location.latitude,
+        longitude: suggestion.location.longitude,
+      ),
     );
   }
 

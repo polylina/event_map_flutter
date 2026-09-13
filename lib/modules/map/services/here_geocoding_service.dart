@@ -1,31 +1,33 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:event_map_flutter/core/config/geocoding_config.dart';
+import 'package:event_map_flutter/core/mixins/dio_client_mixin.dart';
 import 'package:event_map_flutter/modules/map/dto/address_suggestion_dto.dart';
 import 'package:event_map_flutter/modules/map/services/abstract_geocoding_service.dart';
 
-class HereGeocodingService implements AbstractGeocodingService {
+class HereGeocodingService
+    with DioClientMixin
+    implements AbstractGeocodingService {
   static const String _baseUrl =
       'https://geocode.search.hereapi.com/v1/geocode';
 
   @override
   Future<List<AddressSuggestionDto>> search(String query) async {
-    final uri = Uri.parse(_baseUrl).replace(
+    final response = await dio.get(
+      _baseUrl,
       queryParameters: {
         'q': query,
         'limit': '10',
         'apiKey': GeocodingConfig.hereApiKey,
       },
+      options: Options(validateStatus: (_) => true),
     );
-    final response = await http.get(uri);
     if (response.statusCode != 200) {
       throw Exception(
         'HERE geocoding failed with status ${response.statusCode}',
       );
     }
-    final List<dynamic> items = jsonDecode(response.body)['items'] ?? [];
+    final List<dynamic> items = response.data['items'] ?? [];
     return items.map((item) {
       return AddressSuggestionDto(
         title: item['title'] ?? '',

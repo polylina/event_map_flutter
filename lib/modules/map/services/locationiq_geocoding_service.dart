@@ -1,16 +1,18 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:event_map_flutter/core/config/geocoding_config.dart';
+import 'package:event_map_flutter/core/mixins/dio_client_mixin.dart';
 import 'package:event_map_flutter/modules/map/dto/address_suggestion_dto.dart';
 import 'package:event_map_flutter/modules/map/services/abstract_geocoding_service.dart';
 
-class LocationIqGeocodingService implements AbstractGeocodingService {
+class LocationIqGeocodingService
+    with DioClientMixin
+    implements AbstractGeocodingService {
   static const String _baseUrl = 'https://us1.locationiq.com/v1/search';
 
   @override
   Future<List<AddressSuggestionDto>> search(String query) async {
-    final uri = Uri.parse(_baseUrl).replace(
+    final response = await dio.get(
+      _baseUrl,
       queryParameters: {
         'key': GeocodingConfig.locationIqApiKey,
         'q': query,
@@ -18,14 +20,14 @@ class LocationIqGeocodingService implements AbstractGeocodingService {
         'limit': '10',
         'addressdetails': '1',
       },
+      options: Options(validateStatus: (_) => true),
     );
-    final response = await http.get(uri);
     if (response.statusCode != 200) {
       throw Exception(
         'LocationIQ geocoding failed with status ${response.statusCode}',
       );
     }
-    final List<dynamic> results = jsonDecode(response.body);
+    final List<dynamic> results = response.data;
     return results
         .map((result) => AddressSuggestionDto.fromOsmResult(result))
         .toList();

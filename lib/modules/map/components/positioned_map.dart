@@ -45,7 +45,7 @@ class _PositionedMapState extends State<PositionedMap> {
   MapLibreMapController? _mapController;
   late int _lastZoomRequest;
   List<Symbol> _eventMarkers = [];
-  Map<String, CommonEventDto> _markerEventsById = {};
+  Map<int, CommonEventDto> _markerEventsById = {};
   final Set<String> _registeredImageIds = {};
   late StreamSubscription _startDateStream;
   late StreamSubscription _panTargetStream;
@@ -184,7 +184,7 @@ class _PositionedMapState extends State<PositionedMap> {
   }
 
   void _onSymbolTapped(Symbol symbol) {
-    final eventId = symbol.data?['eventId'] as String?;
+    final eventId = symbol.data?['eventId'] as int?;
     final event = _markerEventsById[eventId];
     if (event != null) {
       _eventDetailsCubit.showEvent(event);
@@ -234,7 +234,7 @@ class _PositionedMapState extends State<PositionedMap> {
     }
     final imageIds = await Future.wait(
       events.map(
-        (event) => _ensureMarkerImageRegistered(controller, event.flyer),
+        (event) => _ensureMarkerImageRegistered(controller, event.flyerUrl),
       ),
     );
     // Only the JSON-serializable id is passed as symbol data; the full event
@@ -244,7 +244,10 @@ class _PositionedMapState extends State<PositionedMap> {
       [
         for (var i = 0; i < events.length; i++)
           SymbolOptions(
-            geometry: events[i].location,
+            geometry: LatLng(
+              events[i].location.latitude,
+              events[i].location.longitude,
+            ),
             iconImage: imageIds[i],
             iconSize: 1 / _markerPixelRatio,
             iconAnchor: 'center',

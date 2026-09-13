@@ -11,7 +11,7 @@ class EventDetailsCubit extends Cubit<EventDetailsState> {
         event: event,
         isOpen: true,
         isAnimating: true,
-        isFromList: false,
+        isFromList: true,
       ),
     );
   }

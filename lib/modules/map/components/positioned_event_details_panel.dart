@@ -11,6 +11,7 @@ import 'package:event_map_flutter/modules/map/store/map_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 
 const double _panelWidth = AppSizes.panelSizeLandscape;
 const double _panelMaxHeight = AppSizes.panelSizePortrait;
@@ -151,6 +152,9 @@ class _PositionedEventDetailsPanelState
     final offset = widget.isPortrait
         ? Offset(0, -(_portraitBottom(context) + _panelHeight(context)) / 2)
         : Offset((_panelWidth + _margin * 2) / 2, 0);
-    _mapCubit.panTo(event.location, offset: offset);
+    _mapCubit.panTo(
+      LatLng(event.location.latitude, event.location.longitude),
+      offset: offset,
+    );
   }
 }

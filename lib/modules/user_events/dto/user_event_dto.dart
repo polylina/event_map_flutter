@@ -1,6 +1,6 @@
-import 'package:event_map_flutter/core/json/lat_lng_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:event_map_flutter/modules/common_events/dto/common_event_dto.dart';
+import 'package:event_map_flutter/modules/common_events/dto/location_dto.dart';
 import 'package:event_map_flutter/modules/common_events/dto/user_dto.dart';
 
 part 'user_event_dto.g.dart';
@@ -10,12 +10,10 @@ class UserEventDto extends CommonEventDto {
   const UserEventDto({
     required super.id,
     required super.name,
-    required super.startTime,
-    required super.endTime,
+    required super.startDate,
     required super.location,
-    required super.address,
     super.description,
-    super.flyer,
+    super.flyerUrl,
     super.user,
   });
 

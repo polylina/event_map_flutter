@@ -73,7 +73,7 @@ class EventDetailsPanel extends StatelessWidget {
                         child: Stack(
                           children: [
                             SizedBox.expand(
-                              child: _FlyerImage(imageUrl: event.flyer),
+                              child: _FlyerImage(imageUrl: event.flyerUrl),
                             ),
                             Positioned(
                               bottom: 0,

@@ -1,34 +1,28 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:maplibre_gl/maplibre_gl.dart';
-import 'package:event_map_flutter/core/json/lat_lng_converter.dart';
+import 'package:event_map_flutter/modules/common_events/dto/location_dto.dart';
 import 'package:event_map_flutter/modules/common_events/dto/user_dto.dart';
 
 part 'common_event_dto.g.dart';
 
 @JsonSerializable()
 class CommonEventDto extends Equatable {
-  final String id;
+  final int id;
   final String name;
-  final DateTime startTime;
-  final DateTime endTime;
-  @LatLngConverter()
-  final LatLng location;
-  final String address;
+  final DateTime startDate;
+  final LocationDto location;
   final String? description;
-  final String? flyer;
+  final String? flyerUrl;
   final UserDto? user;
 
   const CommonEventDto({
     required this.id,
     required this.name,
-    required this.startTime,
-    required this.endTime,
+    required this.startDate,
     required this.location,
-    required this.address,
     this.description,
-    this.flyer,
+    this.flyerUrl,
     this.user,
   });
 
@@ -40,12 +34,10 @@ class CommonEventDto extends Equatable {
   String longLabel(BuildContext context) {
     final localizations = MaterialLocalizations.of(context);
     final dateLabel =
-        '${localizations.formatCompactDate(startTime)} · '
-        '${localizations.formatTimeOfDay(TimeOfDay.fromDateTime(startTime))}'
-        '–'
-        '${localizations.formatTimeOfDay(TimeOfDay.fromDateTime(endTime))}';
+        '${localizations.formatCompactDate(startDate)} · '
+        '${localizations.formatTimeOfDay(TimeOfDay.fromDateTime(startDate))}';
 
-    return '$address\n$dateLabel';
+    return '${location.address}\n$dateLabel';
   }
 
   @override
@@ -53,11 +45,9 @@ class CommonEventDto extends Equatable {
     id,
     name,
     description,
-    startTime,
-    endTime,
+    startDate,
     location,
-    address,
-    flyer,
+    flyerUrl,
     user,
   ];
 }

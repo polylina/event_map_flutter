@@ -1,47 +1,61 @@
+import 'package:event_map_flutter/core/mixins/dio_client_mixin.dart';
+import 'package:event_map_flutter/modules/common_events/dto/location_dto.dart';
 import 'package:event_map_flutter/modules/user_events/dto/user_event_dto.dart';
 import 'package:event_map_flutter/modules/common_events/dto/user_dto.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
 
 // TODO: replace hardcoded events with a real backend/API call.
-class UserEventsService {
+class UserEventsService with DioClientMixin {
   final List<UserEventDto> _events = [
     UserEventDto(
-      id: '1',
+      id: 1,
       name: 'Team standup',
-      address: 'Office, Main Street',
       description: 'Daily sync with the team.',
-      startTime: _today.add(const Duration(hours: 9)),
-      endTime: _today.add(const Duration(hours: 9, minutes: 30)),
-      location: const LatLng(50.015784, 19.886219),
-      flyer: 'https://picsum.photos/id/180/1200/800',
+      startDate: _today.add(const Duration(hours: 9)),
+      location: const LocationDto(
+        id: 1,
+        name: 'Office',
+        address: 'Office, Main Street',
+        latitude: 50.015784,
+        longitude: 19.886219,
+      ),
+      flyerUrl: 'https://picsum.photos/id/180/1200/800',
       user: const UserDto(
         name: 'You',
         avatar: 'https://picsum.photos/id/64/200/200',
       ),
     ),
     UserEventDto(
-      id: '2',
+      id: 2,
       name: 'Lunch with Alex',
-      address: 'Cafe, Main Street',
       description: 'Catch up over lunch.',
-      startTime: _today.add(const Duration(days: 1, hours: 12)),
-      endTime: _today.add(const Duration(days: 1, hours: 13)),
-      location: const LatLng(50.115784, 19.986219),
-      flyer: 'https://picsum.photos/id/1080/1200/800',
+      startDate: _today.add(const Duration(days: 1, hours: 12)),
+      location: const LocationDto(
+        id: 2,
+        name: 'Cafe',
+        address: 'Cafe, Main Street',
+        latitude: 50.115784,
+        longitude: 19.986219,
+      ),
+      flyerUrl: 'https://picsum.photos/id/1080/1200/800',
       user: const UserDto(
         name: 'You',
         avatar: 'https://picsum.photos/id/64/200/200',
       ),
     ),
     UserEventDto(
-      id: '3',
+      id: 3,
       name: 'Dentist appointment',
-      address: 'Dental Clinic, Main Street',
       description: 'Routine checkup.',
-      startTime: _today.add(const Duration(days: 3, hours: 15)),
-      endTime: _today.add(const Duration(days: 3, hours: 16)),
-      location: const LatLng(49.915784, 20.086219),
-      flyer: 'https://picsum.photos/id/870/1200/800',
+      startDate: _today.add(const Duration(days: 3, hours: 15)),
+      location: const LocationDto(
+        id: 3,
+        name: 'Dental Clinic',
+        address: 'Dental Clinic, Main Street',
+        latitude: 49.915784,
+        longitude: 20.086219,
+      ),
+      flyerUrl: 'https://picsum.photos/id/870/1200/800',
       user: const UserDto(
         name: 'You',
         avatar: 'https://picsum.photos/id/64/200/200',
@@ -60,10 +74,10 @@ class UserEventsService {
   }) async {
     final endDate = startDate?.add(const Duration(days: 1));
     return _events.where((event) {
-      if (startDate != null && event.startTime.isBefore(startDate)) {
+      if (startDate != null && event.startDate.isBefore(startDate)) {
         return false;
       }
-      if (endDate != null && event.startTime.isAfter(endDate)) {
+      if (endDate != null && event.startDate.isAfter(endDate)) {
         return false;
       }
       if (bounds == null) return true;
