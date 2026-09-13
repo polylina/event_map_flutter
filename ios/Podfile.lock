@@ -1,5 +1,17 @@
 PODS:
+  - AppAuth (2.1.0):
+    - AppAuth/Core (= 2.1.0)
+    - AppAuth/ExternalUserAgent (= 2.1.0)
+  - AppAuth/Core (2.1.0)
+  - AppAuth/ExternalUserAgent (2.1.0):
+    - AppAuth/Core
   - Flutter (1.0.0)
+  - flutter_appauth (0.0.1):
+    - AppAuth (= 2.1.0)
+    - Flutter
+  - flutter_secure_storage_darwin (10.0.0):
+    - Flutter
+    - FlutterMacOS
   - geolocator_apple (1.2.0):
     - Flutter
     - FlutterMacOS
@@ -15,6 +27,8 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_appauth (from `.symlinks/plugins/flutter_appauth/ios`)
+  - flutter_secure_storage_darwin (from `.symlinks/plugins/flutter_secure_storage_darwin/darwin`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - maplibre_gl (from `.symlinks/plugins/maplibre_gl/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -22,11 +36,16 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppAuth
     - MapLibre
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_appauth:
+    :path: ".symlinks/plugins/flutter_appauth/ios"
+  flutter_secure_storage_darwin:
+    :path: ".symlinks/plugins/flutter_secure_storage_darwin/darwin"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/darwin"
   maplibre_gl:
@@ -37,7 +56,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
+  AppAuth: ef4da5a3fc2e10b90c09a0a94a9baeaedc0341d5
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_appauth: ef1bef38e4798ec24309a87ca805b9123a64168f
+  flutter_secure_storage_darwin: 46e401699982ee74142909676535e0f6a7321e58
   geolocator_apple: ab36aa0e8b7d7a2d7639b3b4e48308394e8cef5e
   MapLibre: 96726270455ffd183688cf0bd2a3881b0212a57e
   maplibre_gl: 6bd5bd04d37056c0b6b652b854196ff82e5b0e0c

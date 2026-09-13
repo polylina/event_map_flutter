@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:event_map_flutter/core/di/service_locator.dart';
+import 'package:event_map_flutter/modules/auth/store/auth_cubit.dart';
 import 'package:event_map_flutter/modules/map/screens/add_event_screen.dart';
 import 'package:event_map_flutter/modules/map/screens/map_screen.dart';
 import 'package:event_map_flutter/modules/map/store/map_cubit.dart';
@@ -19,6 +20,7 @@ void main() async {
   await dotenv.load();
   ServiceLocator.registerInstances();
   await GetIt.I.get<SettingsCubit>().init();
+  await GetIt.I.get<AuthCubit>().init();
   unawaited(GetIt.I.get<MapCubit>().init());
   runApp(const MyApp());
 }

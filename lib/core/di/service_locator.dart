@@ -2,6 +2,9 @@ import 'package:event_map_flutter/core/services/image_resolver_service.dart';
 import 'package:event_map_flutter/core/services/notification_service.dart';
 import 'package:event_map_flutter/core/services/widget_rasterizer_service.dart';
 import 'package:get_it/get_it.dart';
+import 'package:event_map_flutter/modules/auth/services/auth_service.dart';
+import 'package:event_map_flutter/modules/auth/services/auth_storage_service.dart';
+import 'package:event_map_flutter/modules/auth/store/auth_cubit.dart';
 import 'package:event_map_flutter/modules/common_events/services/common_events_service.dart';
 import 'package:event_map_flutter/modules/common_events/store/common_events_cubit.dart';
 import 'package:event_map_flutter/modules/map/services/geolocation_service.dart';
@@ -49,6 +52,8 @@ class ServiceLocator {
     _registerLazySingleton<MapImageService>(() => MapImageService());
     _registerLazySingleton<UserEventsService>(() => UserEventsService());
     _registerLazySingleton<CommonEventsService>(() => CommonEventsService());
+    _registerLazySingleton<AuthService>(() => AuthService());
+    _registerLazySingleton<AuthStorageService>(() => AuthStorageService());
     // End services
 
     //Blocs and Cubits
@@ -58,6 +63,7 @@ class ServiceLocator {
     _registerLazySingleton<UserEventsCubit>(() => UserEventsCubit());
     _registerLazySingleton<CommonEventsCubit>(() => CommonEventsCubit());
     _registerLazySingleton<SettingsCubit>(() => SettingsCubit());
+    _registerLazySingleton<AuthCubit>(() => AuthCubit());
     // End blocs and cubits
   }
 
