@@ -1,7 +1,9 @@
+import 'package:event_map_flutter/core/constants/css_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:event_map_flutter/core/constants/app_colors.dart';
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
 import 'package:event_map_flutter/core/components/theme_builder.dart';
+import 'package:event_map_flutter/core/components/web_cursor_region.dart';
 
 class ButtonPrimaryDark extends StatelessWidget {
   final String label;
@@ -56,26 +58,29 @@ class ButtonPrimaryDark extends StatelessWidget {
             elevation: AppSizes.shadowElevation,
             shadowColor: AppColors.shadow,
             clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: onPressed,
-              child: SizedBox(
-                height: kMinInteractiveDimension,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
+            child: WebCursorRegion(
+              cursor: CSSCursor.pointer,
+              child: InkWell(
+                onTap: onPressed,
+                child: SizedBox(
+                  height: kMinInteractiveDimension,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    child: icon == null
+                        ? text
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(icon, color: foregroundColor, size: 20),
+                              const SizedBox(width: 8),
+                              Flexible(child: text),
+                            ],
+                          ),
                   ),
-                  child: icon == null
-                      ? text
-                      : Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(icon, color: foregroundColor, size: 20),
-                            const SizedBox(width: 8),
-                            Flexible(child: text),
-                          ],
-                        ),
                 ),
               ),
             ),

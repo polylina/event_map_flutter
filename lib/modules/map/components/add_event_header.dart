@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:event_map_flutter/modules/map/store/map_cubit.dart';
 import 'package:event_map_flutter/modules/map/store/map_state.dart';
 import 'package:event_map_flutter/modules/settings/extensions/translated_string.dart';
+import 'package:event_map_flutter/core/components/web_icon_button.dart';
 
 class AddEventHeader extends StatelessWidget {
   AddEventHeader({super.key, required this.onClose});
@@ -35,7 +36,7 @@ class AddEventHeader extends StatelessWidget {
                       }),
                     ),
                   ),
-                  IconButton(icon: Icon(Icons.close), onPressed: onClose),
+                  WebIconButton(icon: Icons.close, onPressed: onClose),
                 ],
               ),
               Padding(

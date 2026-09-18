@@ -1,4 +1,6 @@
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
+import 'package:event_map_flutter/core/constants/css_cursor.dart';
+import 'package:event_map_flutter/core/utils/web_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -40,18 +42,48 @@ class PositionedBottomBar extends StatelessWidget {
     return BlocBuilder<MapCubit, MapState>(
       bloc: _mapCubit,
       builder: (context, state) {
-        final timeline = Timeline(
-          direction: Directionality.of(context),
-          initialDate: state.startDate,
-          onDateSelected: _mapCubit.setStartDate,
-          onEnter: () => _mapCubit.setMapScrollable(false),
-          onExit: () => _mapCubit.setMapScrollable(true),
+        final timeline = MouseRegion(
+          onEnter: (_) {
+            _mapCubit.setMapScrollable(false);
+            setWebCursor(CSSCursor.defaultCursor);
+          },
+          onExit: (_) {
+            _mapCubit.setMapScrollable(true);
+            setWebCursor(CSSCursor.grab);
+          },
+          child: Timeline(
+            direction: Directionality.of(context),
+            initialDate: state.startDate,
+            onDateSelected: _mapCubit.setStartDate,
+          ),
         );
-        final addButton = AnimatedScale(
-          duration: panelAnimationDuration ?? const Duration(milliseconds: 100),
-          curve: Curves.easeOut,
-          scale: state.isPanelOpen ? 0.0 : 1.0,
-          child: AddEventButton(onPressed: onAddEventPressed),
+        final addButton = MouseRegion(
+          onEnter: (_) {
+            _mapCubit.setMapScrollable(false);
+            setWebCursor(CSSCursor.pointer);
+          },
+          onExit: (_) {
+            _mapCubit.setMapScrollable(true);
+            setWebCursor(CSSCursor.grab);
+          },
+          child: AnimatedScale(
+            duration:
+                panelAnimationDuration ?? const Duration(milliseconds: 100),
+            curve: Curves.easeOut,
+            scale: state.isPanelOpen ? 0.0 : 1.0,
+            child: AddEventButton(onPressed: onAddEventPressed),
+          ),
+        );
+        final eventListButton = MouseRegion(
+          onEnter: (_) {
+            _mapCubit.setMapScrollable(false);
+            setWebCursor(CSSCursor.pointer);
+          },
+          onExit: (_) {
+            _mapCubit.setMapScrollable(true);
+            setWebCursor(CSSCursor.grab);
+          },
+          child: EventsListButton(),
         );
         return Positioned(
           bottom: 0,
@@ -68,13 +100,13 @@ class PositionedBottomBar extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             if (isLtr) ...[
-                              EventsListButton(),
+                              eventListButton,
                               const SizedBox(width: _rowGap),
                               timeline,
                             ] else ...[
                               timeline,
                               const SizedBox(width: _rowGap),
-                              EventsListButton(),
+                              eventListButton,
                             ],
                           ],
                         ),
@@ -94,7 +126,7 @@ class PositionedBottomBar extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         if (isLtr) ...[
-                          EventsListButton(),
+                          eventListButton,
                           const SizedBox(width: _rowGap),
                           timeline,
                           const SizedBox(width: _rowGap),
@@ -104,7 +136,7 @@ class PositionedBottomBar extends StatelessWidget {
                           const SizedBox(width: _rowGap),
                           timeline,
                           const SizedBox(width: _rowGap),
-                          EventsListButton(),
+                          eventListButton,
                         ],
                       ],
                     ),

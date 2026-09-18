@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:event_map_flutter/core/constants/css_cursor.dart';
 import 'package:event_map_flutter/modules/common_events/dto/common_event_dto.dart';
+import 'package:event_map_flutter/core/utils/web_cursor.dart';
 import 'package:event_map_flutter/modules/common_events/store/common_events_cubit.dart';
 import 'package:event_map_flutter/modules/map/components/event_marker_icon.dart';
 import 'package:event_map_flutter/modules/map/services/map_image_service.dart';
@@ -130,6 +132,15 @@ class _PositionedMapState extends State<PositionedMap> {
             onMapCreated: (MapLibreMapController controller) {
               _mapController = controller;
               controller.onSymbolTapped.add(_onSymbolTapped);
+              // On web the map is a topmost platform view: widgets above it
+              // can't paint cursors over it, so the cursor is driven by
+              // writing inline styles onto the map's canvas container (see
+              // `setWebCursor` calls in the panels' MouseRegions).
+              setWebCursor(
+                state.isMapScrollable
+                    ? CSSCursor.grab
+                    : CSSCursor.defaultCursor,
+              );
             },
             onStyleLoadedCallback: () {
               // Style images are tied to the style instance; the cache and old

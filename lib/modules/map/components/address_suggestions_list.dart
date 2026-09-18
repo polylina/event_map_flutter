@@ -1,3 +1,4 @@
+import 'package:event_map_flutter/core/constants/css_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
 import 'package:event_map_flutter/core/components/themed_divider.dart';
@@ -8,6 +9,7 @@ import 'package:event_map_flutter/core/components/section_title.dart';
 import 'package:event_map_flutter/modules/map/store/add_event_form_cubit.dart';
 import 'package:event_map_flutter/modules/map/store/add_event_form_state.dart';
 import 'package:event_map_flutter/modules/settings/extensions/translated_string.dart';
+import 'package:event_map_flutter/core/components/web_cursor_region.dart';
 
 class AddressSuggestionsList extends StatelessWidget {
   final AddEventFormCubit _formCubit = GetIt.I.get<AddEventFormCubit>();
@@ -53,19 +55,22 @@ class AddressSuggestionsList extends StatelessWidget {
                   ),
                   itemBuilder: (context, index) {
                     final suggestion = state.suggestions[index];
-                    return ListTile(
-                      title: Text(
-                        suggestion.title.isEmpty
-                            ? suggestion.address
-                            : suggestion.title,
-                      ),
-                      subtitle: Text(
-                        suggestion.title.isEmpty ? '' : suggestion.address,
-                      ),
-                      onTap: () => _formCubit.selectSuggestion(suggestion),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          AppSizes.listTileBorderRadius,
+                    return WebCursorRegion(
+                      cursor: CSSCursor.pointer,
+                      child: ListTile(
+                        title: Text(
+                          suggestion.title.isEmpty
+                              ? suggestion.address
+                              : suggestion.title,
+                        ),
+                        subtitle: Text(
+                          suggestion.title.isEmpty ? '' : suggestion.address,
+                        ),
+                        onTap: () => _formCubit.selectSuggestion(suggestion),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            AppSizes.listTileBorderRadius,
+                          ),
                         ),
                       ),
                     );

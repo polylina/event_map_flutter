@@ -1,6 +1,8 @@
 import 'package:event_map_flutter/core/components/themed_surface.dart';
 import 'package:event_map_flutter/core/constants/app_colors.dart';
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
+import 'package:event_map_flutter/core/constants/css_cursor.dart';
+import 'package:event_map_flutter/core/utils/web_cursor.dart';
 import 'package:event_map_flutter/modules/common_events/dto/common_event_dto.dart';
 import 'package:event_map_flutter/modules/map/components/event_details_panel.dart';
 import 'package:event_map_flutter/modules/map/components/events_list_panel.dart';
@@ -85,8 +87,14 @@ class _PositionedEventDetailsPanelState
           child: !state.isOpen && !state.isAnimating
               ? const SizedBox.shrink()
               : MouseRegion(
-                  onEnter: (_) => _mapCubit.setMapScrollable(false),
-                  onExit: (_) => _mapCubit.setMapScrollable(true),
+                  onEnter: (_) {
+                    _mapCubit.setMapScrollable(false);
+                    setWebCursor(CSSCursor.defaultCursor);
+                  },
+                  onExit: (_) {
+                    _mapCubit.setMapScrollable(true);
+                    setWebCursor(CSSCursor.grab);
+                  },
                   child: ThemedSurface(
                     elevation: AppSizes.shadowElevation,
                     shadowColor: AppColors.shadow,

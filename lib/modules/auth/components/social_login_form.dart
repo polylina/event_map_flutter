@@ -1,3 +1,4 @@
+import 'package:event_map_flutter/core/constants/css_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -9,6 +10,7 @@ import 'package:event_map_flutter/modules/auth/dto/auth_provider.dart';
 import 'package:event_map_flutter/modules/auth/store/auth_cubit.dart';
 import 'package:event_map_flutter/modules/auth/store/auth_state.dart';
 import 'package:event_map_flutter/modules/settings/extensions/translated_string.dart';
+import 'package:event_map_flutter/core/components/web_cursor_region.dart';
 
 class SocialLoginForm extends StatelessWidget {
   static const Map<AuthProvider, IconData> _icons = {
@@ -43,13 +45,16 @@ class SocialLoginForm extends StatelessWidget {
               for (final provider in AuthProvider.values)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: ButtonPrimaryDark(
-                    label: provider.labelKey.translated,
-                    icon: _icons[provider],
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    textOverflow: TextOverflow.ellipsis,
-                    onPressed: () => _authCubit.login(provider),
+                  child: WebCursorRegion(
+                    cursor: CSSCursor.pointer,
+                    child: ButtonPrimaryDark(
+                      label: provider.labelKey.translated,
+                      icon: _icons[provider],
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      textOverflow: TextOverflow.ellipsis,
+                      onPressed: () => _authCubit.login(provider),
+                    ),
                   ),
                 ),
             if (state.errorKey != null)

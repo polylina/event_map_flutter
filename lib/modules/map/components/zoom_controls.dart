@@ -1,3 +1,4 @@
+import 'package:event_map_flutter/core/components/web_icon_button.dart';
 import 'package:event_map_flutter/core/constants/app_colors.dart';
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
 import 'package:event_map_flutter/modules/map/store/map_cubit.dart';
@@ -20,15 +21,15 @@ class ZoomControls extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(
+            WebIconButton(
               tooltip: 'Zoom in',
-              icon: const Icon(Icons.add),
+              icon: Icons.add,
               onPressed: mapCubit.zoomIn,
             ),
             const Divider(height: 1),
-            IconButton(
+            WebIconButton(
               tooltip: 'Zoom out',
-              icon: const Icon(Icons.remove),
+              icon: Icons.remove,
               onPressed: mapCubit.zoomOut,
             ),
           ],

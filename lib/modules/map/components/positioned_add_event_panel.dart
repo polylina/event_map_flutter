@@ -1,5 +1,7 @@
 import 'package:event_map_flutter/core/components/themed_surface.dart';
 import 'package:event_map_flutter/core/constants/app_colors.dart';
+import 'package:event_map_flutter/core/constants/css_cursor.dart';
+import 'package:event_map_flutter/core/utils/web_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -35,8 +37,14 @@ class PositionedAddEventPanel extends StatelessWidget {
           child: !state.isPanelOpen && !state.isPanelAnimating
               ? const SizedBox.shrink()
               : MouseRegion(
-                  onEnter: (_) => _mapCubit.setMapScrollable(false),
-                  onExit: (_) => _mapCubit.setMapScrollable(true),
+                  onEnter: (_) {
+                    _mapCubit.setMapScrollable(false);
+                    setWebCursor(CSSCursor.defaultCursor);
+                  },
+                  onExit: (_) {
+                    _mapCubit.setMapScrollable(true);
+                    setWebCursor(CSSCursor.grab);
+                  },
                   child: ThemedSurface(
                     elevation: AppSizes.shadowElevation,
                     shadowColor: AppColors.shadow,

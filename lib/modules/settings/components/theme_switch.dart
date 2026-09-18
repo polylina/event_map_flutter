@@ -1,3 +1,4 @@
+import 'package:event_map_flutter/core/components/web_icon_button.dart';
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
 import 'package:event_map_flutter/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,8 @@ class ThemeSwitch extends StatelessWidget {
           child: SizedBox(
             width: kMinInteractiveDimension,
             height: kMinInteractiveDimension,
-            child: IconButton(
-              icon: isDark
-                  ? const Icon(Icons.dark_mode)
-                  : const Icon(Icons.light_mode),
+            child: WebIconButton(
+              icon: isDark ? Icons.dark_mode : Icons.light_mode,
               onPressed: settingsCubit.toggleTheme,
               style: IconButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.surface,

@@ -1,4 +1,6 @@
 import 'package:event_map_flutter/core/components/theme_builder.dart';
+import 'package:event_map_flutter/core/components/web_cursor_region.dart';
+import 'package:event_map_flutter/core/constants/css_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -55,9 +57,22 @@ class _LanguageSwitchState extends State<LanguageSwitch> {
                 .map(
                   (language) => PopupMenuItem(
                     value: language,
-                    child: Text(
-                      '${_countryFlag(language.countryCode)} '
-                      '${_languageName(language.languageCode)}',
+                    child: WebCursorRegion(
+                      cursor: CSSCursor.pointer,
+                      child: SizedBox(
+                        height: kMinInteractiveDimension,
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${_countryFlag(language.countryCode)}  '
+                              '${_languageName(language.languageCode)}',
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 )

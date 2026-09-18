@@ -1,3 +1,4 @@
+import 'package:event_map_flutter/core/components/web_icon_button.dart';
 import 'package:flutter/material.dart';
 
 /// Bottom row of a map panel: optional back arrow at the leading corner and
@@ -18,10 +19,10 @@ class PanelControlsRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           if (onBack != null)
-            IconButton(icon: const Icon(Icons.arrow_back), onPressed: onBack)
+            WebIconButton(icon: Icons.arrow_back, onPressed: onBack)
           else
             const SizedBox.shrink(),
-          IconButton(icon: const Icon(Icons.close), onPressed: onClose),
+          WebIconButton(icon: Icons.close, onPressed: onClose),
         ],
       ),
     );

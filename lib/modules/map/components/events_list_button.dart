@@ -1,3 +1,4 @@
+import 'package:event_map_flutter/core/components/web_icon_button.dart';
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
 import 'package:event_map_flutter/modules/map/store/event_details_cubit.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,9 @@ class EventsListButton extends StatelessWidget {
       elevation: 6,
       color: Theme.of(context).colorScheme.surface,
       borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
-      child: IconButton(
+      child: WebIconButton(
+        icon: Icons.list,
         onPressed: _eventDetailsCubit.toggleList,
-        icon: const Icon(Icons.list),
       ),
     );
   }
