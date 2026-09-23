@@ -2,7 +2,7 @@
 /// `kc_idp_hint` so Keycloak skips its own login page.
 enum AuthProvider {
   google('google', 'auth.continueWithGoogle'),
-  facebook('facebook', 'auth.continueWithFacebook');
+  apple('apple', 'auth.continueWithApple');
 
   const AuthProvider(this.idpHint, this.labelKey);
 

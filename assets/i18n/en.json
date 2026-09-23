@@ -24,7 +24,7 @@
   "auth.loginRequired": "Sign in to add an event",
   "auth.loginRequiredMessage": "Choose how you would like to continue",
   "auth.continueWithGoogle": "Continue with Google",
-  "auth.continueWithFacebook": "Continue with Facebook",
+  "auth.continueWithApple": "Continue with Apple",
   "auth.loginFailed": "Sign-in failed. Please try again",
   "timeline.time.am": "AM",
   "timeline.time.pm": "PM",

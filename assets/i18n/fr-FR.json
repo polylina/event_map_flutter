@@ -24,7 +24,7 @@
   "auth.loginRequired": "Connectez-vous pour ajouter un événement",
   "auth.loginRequiredMessage": "Choisissez comment continuer",
   "auth.continueWithGoogle": "Continuer avec Google",
-  "auth.continueWithFacebook": "Continuer avec Facebook",
+  "auth.continueWithApple": "Continuer avec Apple",
   "auth.loginFailed": "Échec de la connexion. Veuillez réessayer",
   "timeline.time.am": "AM",
   "timeline.time.pm": "PM",

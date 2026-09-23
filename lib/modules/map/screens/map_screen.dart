@@ -6,6 +6,7 @@ import 'package:event_map_flutter/modules/map/components/positioned_crosshair.da
 import 'package:event_map_flutter/modules/map/components/positioned_event_details_panel.dart';
 import 'package:event_map_flutter/modules/map/components/positioned_map.dart';
 import 'package:event_map_flutter/modules/map/screens/add_event_screen.dart';
+import 'package:event_map_flutter/modules/auth/utils/auth_ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -39,9 +40,12 @@ class MapScreen extends StatelessWidget {
                         const PositionedMap(),
                         PositionedBottomBar(
                           isPortrait: true,
-                          onAddEventPressed: () => Navigator.of(
+                          onAddEventPressed: () => callIfAuthenticated(
                             context,
-                          ).pushNamed(AddEventScreen.routeName),
+                            callable: () => Navigator.of(
+                              context,
+                            ).pushNamed(AddEventScreen.routeName),
+                          ),
                         ),
                         const PositionedControls(),
                         PositionedEventDetailsPanel(
@@ -54,7 +58,10 @@ class MapScreen extends StatelessWidget {
                       children: [
                         const PositionedMap(),
                         PositionedBottomBar(
-                          onAddEventPressed: _mapCubit.openPanel,
+                          onAddEventPressed: () => callIfAuthenticated(
+                            context,
+                            callable: _mapCubit.openPanel,
+                          ),
                           panelAnimationDuration: _panelAnimationDuration,
                         ),
                         const PositionedControls(),

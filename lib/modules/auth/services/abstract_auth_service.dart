@@ -5,7 +5,7 @@ import 'package:event_map_flutter/modules/auth/dto/auth_provider.dart';
 abstract class AbstractAuthService {
   static const String defaultRedirectUrl = 'emf://login-callback';
   static const String defaultClientId = 'event_map_flutter';
-  static const String defaultIssuer = 'http://localhost:8080/realms/event_map';
+  static const String defaultIssuer = 'https://localhost/realms/event_map';
   static const List<String> scopes = [
     'openid',
     'profile',

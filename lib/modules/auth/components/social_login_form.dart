@@ -15,7 +15,7 @@ import 'package:event_map_flutter/core/components/web_cursor_region.dart';
 class SocialLoginForm extends StatelessWidget {
   static const Map<AuthProvider, IconData> _icons = {
     AuthProvider.google: Icons.g_mobiledata,
-    AuthProvider.facebook: Icons.facebook,
+    AuthProvider.apple: Icons.apple,
   };
 
   final AuthCubit _authCubit = GetIt.I.get<AuthCubit>();

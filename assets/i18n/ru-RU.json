@@ -24,7 +24,7 @@
   "auth.loginRequired": "Войдите, чтобы добавить событие",
   "auth.loginRequiredMessage": "Выберите способ входа",
   "auth.continueWithGoogle": "Продолжить с Google",
-  "auth.continueWithFacebook": "Продолжить с Facebook",
+  "auth.continueWithApple": "Продолжить с Apple",
   "auth.loginFailed": "Не удалось войти. Попробуйте ещё раз",
   "timeline.time.am": "до полудня",
   "timeline.time.pm": "после полудня",

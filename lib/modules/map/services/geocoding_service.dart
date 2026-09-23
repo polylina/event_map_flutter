@@ -13,6 +13,7 @@ class GeocodingService implements AbstractGeocodingService {
 
   GeocodingService() {
     switch (GeocodingConfig.provider) {
+      // TODO: move all to API
       case GeocodingProviders.google:
         _service = GoogleGeocodingService();
         break;

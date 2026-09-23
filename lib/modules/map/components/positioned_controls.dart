@@ -1,4 +1,5 @@
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
+import 'package:event_map_flutter/modules/auth/components/login_control.dart';
 import 'package:event_map_flutter/modules/settings/components/language_switch.dart';
 import 'package:event_map_flutter/modules/settings/components/theme_switch.dart';
 import 'package:event_map_flutter/modules/map/components/zoom_controls.dart';
@@ -16,7 +17,12 @@ class PositionedControls extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
-          children: [LanguageSwitch(), ThemeSwitch(), const ZoomControls()],
+          children: [
+            LoginControl(),
+            LanguageSwitch(),
+            ThemeSwitch(),
+            const ZoomControls(),
+          ],
         ),
       ),
     );

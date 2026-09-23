@@ -24,7 +24,7 @@
   "auth.loginRequired": "Anmelden, um ein Event hinzuzufügen",
   "auth.loginRequiredMessage": "Wähle aus, wie du fortfahren möchtest",
   "auth.continueWithGoogle": "Weiter mit Google",
-  "auth.continueWithFacebook": "Weiter mit Facebook",
+  "auth.continueWithApple": "Weiter mit Apple",
   "auth.loginFailed": "Anmeldung fehlgeschlagen. Bitte erneut versuchen",
   "timeline.time.am": "vorm.",
   "timeline.time.pm": "nachm.",

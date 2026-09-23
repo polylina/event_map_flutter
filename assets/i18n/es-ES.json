@@ -24,7 +24,7 @@
   "auth.loginRequired": "Inicia sesión para añadir un evento",
   "auth.loginRequiredMessage": "Elige cómo quieres continuar",
   "auth.continueWithGoogle": "Continuar con Google",
-  "auth.continueWithFacebook": "Continuar con Facebook",
+  "auth.continueWithApple": "Continuar con Apple",
   "auth.loginFailed": "Error al iniciar sesión. Inténtalo de nuevo",
   "timeline.time.am": "a. m.",
   "timeline.time.pm": "p. m.",

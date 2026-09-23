@@ -1,3 +1,5 @@
+import 'package:event_map_flutter/modules/auth/utils/jwt_decoder.dart';
+
 class AuthState {
   final String? accessToken;
   final String? refreshToken;
@@ -14,6 +16,24 @@ class AuthState {
   });
 
   bool get isAuthenticated => accessToken != null;
+
+  Map<String, dynamic>? get _claims => JwtDecoder.payload(idToken);
+
+  /// Full display name from the id token claims, e.g. "Jane Doe".
+  String? get userName {
+    final claims = _claims;
+    if (claims == null) return null;
+    return claims['name'] as String? ?? claims['preferred_username'] as String?;
+  }
+
+  /// Email from the id token claims.
+  String? get userEmail => _claims?['email'] as String?;
+
+  /// Avatar URL from the id token claims (Keycloak: `picture`).
+  String? get userAvatar => _claims?['picture'] as String?;
+
+  /// Best label to show: full name, or email when no name is set.
+  String? get userLabel => userName ?? userEmail;
 
   AuthState copyWith({
     String? Function()? accessToken,
