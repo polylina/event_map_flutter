@@ -7,6 +7,7 @@ class AppColors {
   static const Color defaultAccent = Colors.blueAccent;
   static final Color divider = Colors.grey.shade300;
   static const Color errorAccent = Colors.redAccent;
+  static const Color successAccent = Colors.green;
   static const Color inputBorderFocused = Colors.black12;
   static const Color inputBorder = Colors.transparent;
   static const Color inputFillFocused = Color(0xFFF6F6F6);

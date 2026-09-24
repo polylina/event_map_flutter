@@ -4,6 +4,7 @@ import 'package:event_map_flutter/core/components/web_icon_button.dart';
 import 'package:event_map_flutter/core/constants/app_colors.dart';
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
 import 'package:event_map_flutter/core/constants/css_cursor.dart';
+import 'package:event_map_flutter/core/services/notification_service.dart';
 import 'package:event_map_flutter/modules/auth/components/social_login_form.dart';
 import 'package:event_map_flutter/modules/auth/store/auth_cubit.dart';
 import 'package:event_map_flutter/modules/auth/store/auth_state.dart';
@@ -40,12 +41,13 @@ class _LoginControlState extends State<LoginControl> {
         if (!state.isAuthenticated) {
           return _LoginButton(onPressed: () => _showLoginDialog(context));
         }
+        _hideLoginDialog();
         return _UserButton(
           avatarUrl: state.userAvatar,
           label: state.userLabel,
           onPressed: () => _showLogoutMenu(context, authCubit),
           isLogoutVisible: _isLogoutVisible,
-          onLogoutPressed: () => authCubit.logout(),
+          onLogoutPressed: () => _logout(authCubit),
         );
       },
     );
@@ -57,10 +59,21 @@ class _LoginControlState extends State<LoginControl> {
       builder: (dialogContext) => Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
-          child: ThemedSurface(child: SocialLoginForm()),
+          child: ThemedSurface(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSizes.panelBorderRadius),
+            ),
+            child: SocialLoginForm(),
+          ),
         ),
       ),
     );
+  }
+
+  void _hideLoginDialog() {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
   }
 
   void _showLogoutMenu(BuildContext context, AuthCubit authCubit) {
@@ -73,6 +86,15 @@ class _LoginControlState extends State<LoginControl> {
         _isLogoutVisible = false;
       });
     });
+  }
+
+  Future<void> _logout(AuthCubit authCubit) async {
+    await authCubit.logout();
+    if (!mounted) return;
+    GetIt.I.get<NotificationService>().showSuccessToast(
+      context: context,
+      textKey: 'auth.loggedOut',
+    );
   }
 }
 
