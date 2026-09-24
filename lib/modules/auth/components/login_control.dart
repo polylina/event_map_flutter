@@ -1,5 +1,6 @@
 import 'package:event_map_flutter/core/components/themed_surface.dart';
 import 'package:event_map_flutter/core/components/web_cursor_region.dart';
+import 'package:event_map_flutter/core/components/web_icon_button.dart';
 import 'package:event_map_flutter/core/constants/app_colors.dart';
 import 'package:event_map_flutter/core/constants/app_sizes.dart';
 import 'package:event_map_flutter/core/constants/css_cursor.dart';
@@ -8,6 +9,7 @@ import 'package:event_map_flutter/modules/auth/store/auth_cubit.dart';
 import 'package:event_map_flutter/modules/auth/store/auth_state.dart';
 import 'package:event_map_flutter/modules/settings/extensions/translated_string.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -17,8 +19,16 @@ import 'package:get_it/get_it.dart';
 ///   login form.
 /// - Logged in: avatar (or generic person icon) + full name / email; tap
 ///   opens a dropdown with a log out button.
-class LoginControl extends StatelessWidget {
+class LoginControl extends StatefulWidget {
   const LoginControl({super.key});
+
+  @override
+  State<LoginControl> createState() => _LoginControlState();
+}
+
+class _LoginControlState extends State<LoginControl> {
+  bool _isLogoutVisible = false;
+  Timer? _logoutTimer;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +44,8 @@ class LoginControl extends StatelessWidget {
           avatarUrl: state.userAvatar,
           label: state.userLabel,
           onPressed: () => _showLogoutMenu(context, authCubit),
+          isLogoutVisible: _isLogoutVisible,
+          onLogoutPressed: () => authCubit.logout(),
         );
       },
     );
@@ -52,41 +64,14 @@ class LoginControl extends StatelessWidget {
   }
 
   void _showLogoutMenu(BuildContext context, AuthCubit authCubit) {
-    showMenu<String>(
-      context: context,
-      position: const RelativeRect.fromLTRB(
-        double.infinity,
-        0,
-        AppSizes.generalPadding,
-        double.infinity,
-      ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      color: Theme.of(context).brightness == Brightness.dark
-          ? AppColors.darkSurface
-          : AppColors.surface,
-      items: [
-        PopupMenuItem<String>(
-          value: 'logout',
-          child: WebCursorRegion(
-            cursor: CSSCursor.pointer,
-            child: SizedBox(
-              height: kMinInteractiveDimension,
-              width: double.infinity,
-              child: Row(
-                children: [
-                  const Icon(Icons.logout, size: 20),
-                  const SizedBox(width: 12),
-                  Text('auth.logout'.translated),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    ).then((value) {
-      if (value == 'logout') {
-        authCubit.logout();
-      }
+    setState(() {
+      _isLogoutVisible = true;
+    });
+    _logoutTimer?.cancel();
+    _logoutTimer = Timer(const Duration(seconds: 3), () {
+      setState(() {
+        _isLogoutVisible = false;
+      });
     });
   }
 }
@@ -106,7 +91,7 @@ class _LoginButton extends StatelessWidget {
         child: WebCursorRegion(
           cursor: CSSCursor.pointer,
           child: IconButton(
-            icon: const Icon(Icons.login),
+            icon: const Icon(Icons.account_circle),
             tooltip: 'auth.login'.translated,
             onPressed: onPressed,
             style: IconButton.styleFrom(
@@ -126,61 +111,92 @@ class _UserButton extends StatelessWidget {
     required this.avatarUrl,
     required this.label,
     required this.onPressed,
+    this.isLogoutVisible = false,
+    this.onLogoutPressed,
   });
 
   final String? avatarUrl;
   final String? label;
   final VoidCallback onPressed;
+  final bool isLogoutVisible;
+  final VoidCallback? onLogoutPressed;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8, top: 8),
-      child: WebCursorRegion(
-        cursor: CSSCursor.pointer,
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
-          child: Container(
-            height: kMinInteractiveDimension,
-            padding: const EdgeInsets.only(left: 8, right: 12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.shadow,
-                  blurRadius: AppSizes.shadowElevation,
-                  offset: const Offset(0, 2),
+      child: Material(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
+        elevation: AppSizes.shadowElevation,
+        shadowColor: AppColors.shadow,
+        child: WebCursorRegion(
+          cursor: CSSCursor.pointer,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                onTap: onPressed,
+                borderRadius: BorderRadius.circular(
+                  AppSizes.buttonBorderRadius,
                 ),
-              ],
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  radius: 14,
-                  backgroundImage: avatarUrl == null
-                      ? null
-                      : NetworkImage(avatarUrl!),
-                  child: avatarUrl == null
-                      ? const Icon(Icons.person, size: 16)
-                      : null,
-                ),
-                if (label != null) ...[
-                  const SizedBox(width: 8),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 120),
-                    child: Text(
-                      label!,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 13),
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 8.0, 16.0, 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        radius: 16,
+                        backgroundImage: avatarUrl == null
+                            ? null
+                            : NetworkImage(avatarUrl!),
+                        child: avatarUrl == null
+                            ? const Icon(Icons.person, size: 16)
+                            : null,
+                      ),
+                      if (label != null) ...[
+                        const SizedBox(width: 8),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 120),
+                          child: Text(
+                            label!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
-                ],
-              ],
-            ),
+                ),
+              ),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOut,
+                alignment: Alignment.centerRight,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeIn,
+                  transitionBuilder: (child, animation) => ScaleTransition(
+                    scale: animation,
+                    alignment: Alignment.centerRight,
+                    child: child,
+                  ),
+                  layoutBuilder: (currentChild, previousChildren) => Stack(
+                    alignment: Alignment.centerRight,
+                    children: [...previousChildren, ?currentChild],
+                  ),
+                  child: isLogoutVisible
+                      ? WebIconButton(
+                          key: const ValueKey('logout'),
+                          icon: Icons.logout,
+                          onPressed: onLogoutPressed,
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ),
+            ],
           ),
         ),
       ),
