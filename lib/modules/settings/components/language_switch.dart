@@ -1,10 +1,10 @@
 import 'package:event_map_flutter/core/components/theme_builder.dart';
 import 'package:event_map_flutter/core/components/web_cursor_region.dart';
+import 'package:event_map_flutter/core/constants/app_sizes.dart';
 import 'package:event_map_flutter/core/constants/css_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:event_map_flutter/core/components/button_primary_light.dart';
 import 'package:event_map_flutter/core/constants/app_colors.dart';
 import 'package:event_map_flutter/modules/settings/dto/language_dto.dart';
 import 'package:event_map_flutter/modules/settings/extensions/translated_string.dart';
@@ -78,16 +78,27 @@ class _LanguageSwitchState extends State<LanguageSwitch> {
                 )
                 .toList(),
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 8, top: 16),
-              child: ButtonPrimaryLight(
-                label: state.language == null
-                    ? ''
-                    : '${_countryFlag(state.language!.countryCode)} '
-                          '${_languageName(state.language!.languageCode)}',
-                onPressed: () => _popupMenuKey.currentState?.showButtonMenu(),
-                trailing: Icon(
-                  _isOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                  color: isDark ? AppColors.darkText : AppColors.text,
+              padding: const EdgeInsets.only(bottom: 8, top: 8),
+              child: WebCursorRegion(
+                cursor: CSSCursor.pointer,
+                child: SizedBox(
+                  height: kMinInteractiveDimension,
+                  width: kMinInteractiveDimension,
+                  child: IconButton(
+                    icon: state.language == null
+                        ? const SizedBox.shrink()
+                        : Text(
+                            _countryFlag(state.language!.countryCode),
+                            style: TextStyle(fontSize: AppSizes.langFlagSize),
+                          ),
+                    onPressed: () =>
+                        _popupMenuKey.currentState?.showButtonMenu(),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      elevation: AppSizes.shadowElevation,
+                      shadowColor: AppColors.shadow,
+                    ),
+                  ),
                 ),
               ),
             ),

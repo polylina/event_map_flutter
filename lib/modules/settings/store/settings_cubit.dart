@@ -7,6 +7,7 @@ import 'package:event_map_flutter/modules/settings/services/locale_detection_ser
 import 'package:event_map_flutter/modules/settings/services/settings_storage_service.dart';
 import 'package:event_map_flutter/modules/settings/services/theme_detection_service.dart';
 import 'package:event_map_flutter/modules/settings/services/translation_service.dart';
+import 'package:event_map_flutter/modules/settings/services/world_region_service.dart';
 import 'package:event_map_flutter/modules/settings/store/settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
@@ -16,24 +17,34 @@ class SettingsCubit extends Cubit<SettingsState> {
       .get<LocaleDetectionService>();
   final TranslationService _translationService = GetIt.I
       .get<TranslationService>();
+  final WorldRegionService _worldRegionService = GetIt.I
+      .get<WorldRegionService>();
   final SettingsStorageService _settingsStorageService = GetIt.I
       .get<SettingsStorageService>();
 
   SettingsCubit() : super(const SettingsState());
 
   Future<void> init() async {
-    final supportedLanguages = await _translationService
-        .loadSupportedLanguages();
+    final worldRegion = await _worldRegionService.getWorldRegion();
+    final supportedLanguages = await _translationService.loadSupportedLanguages(
+      worldRegion,
+    );
     final platformLocale = _localeDetectionService.getPlatformLocale();
     final platformLanguageCode = platformLocale.countryCode == null
         ? platformLocale.languageCode
         : '${platformLocale.languageCode}-${platformLocale.countryCode}';
-    // A stored choice wins over what the platform reports.
+    // A stored choice wins over the timezone-derived default.
     final storedLanguageCode = await _settingsStorageService.getLanguageCode();
-    final language = _translationService.getCurrentLanguage(
-      supportedLanguages,
-      storedLanguageCode ?? platformLanguageCode,
-    );
+    final language = storedLanguageCode == null
+        ? _translationService.getDefaultLanguage(
+            worldRegion,
+            supportedLanguages,
+            platformLanguageCode,
+          )
+        : _translationService.getCurrentLanguage(
+            supportedLanguages,
+            storedLanguageCode,
+          );
     final translations = await _translationService.loadTranslations(
       language.languageCode,
     );

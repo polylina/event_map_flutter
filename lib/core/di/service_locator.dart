@@ -17,6 +17,7 @@ import 'package:event_map_flutter/modules/settings/services/locale_detection_ser
 import 'package:event_map_flutter/modules/settings/services/settings_storage_service.dart';
 import 'package:event_map_flutter/modules/settings/services/theme_detection_service.dart';
 import 'package:event_map_flutter/modules/settings/services/translation_service.dart';
+import 'package:event_map_flutter/modules/settings/services/world_region_service.dart';
 import 'package:event_map_flutter/modules/settings/store/settings_cubit.dart';
 import 'package:event_map_flutter/modules/user_events/services/user_events_service.dart';
 import 'package:event_map_flutter/modules/user_events/store/user_events_cubit.dart';
@@ -41,6 +42,7 @@ class ServiceLocator {
       () => LocaleDetectionService(),
     );
     _registerLazySingleton<TranslationService>(() => TranslationService());
+    _registerLazySingleton<WorldRegionService>(() => WorldRegionService());
     _registerLazySingleton<SettingsStorageService>(
       () => SettingsStorageService(),
     );

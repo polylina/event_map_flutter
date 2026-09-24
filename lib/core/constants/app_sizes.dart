@@ -4,6 +4,7 @@ class AppSizes {
   static const buttonBorderRadius = 24.0;
   static const generalPadding = 16.0;
   static const inputBorderRadius = 16.0;
+  static const langFlagSize = 20.0;
   static const listTileBorderRadius = 8.0;
   static const crosshairSize = 32.0;
   static const panelSizeLandscape = 300.0;
